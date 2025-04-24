@@ -9,7 +9,7 @@ Task API Assessment
  - **Optimizations**: Composite index on `status` and `priority`, Redis caching, and rate limiting for performance.
 
  ## Setup Instructions
- 1. Clone the repository: `git clone https://github.com/your-username/task-api-assessment.git`
+ 1. Clone the repository: `git clone https://github.com/Abdelrahman20180315/task-api-assessment.git`
  2. Install dependencies: `composer install`
  3. Copy `.env.example` to `.env` and configure MySQL and Redis:
     ```
@@ -25,7 +25,55 @@ Task API Assessment
     ```
  4. Run migrations: `php artisan migrate`
  5. Start the server: `php artisan serve`
- 6. Test the API using Postman or cURL:
+ 6. Test the API using 
+
+    Postman:
+    API Endpoint Specification
+    Endpoint: POST /api/tasks
+    Purpose: Create a new task in the project management application.
+    Request Method: POST
+    URL: [/api/tasks](http://127.0.0.1:8000/api/tasks)
+    Request Body (JSON):
+
+    {
+    "title": "Complete project documentation",
+    "description": "Write and finalize the project documentation for client review.",
+    "status": "To Do",
+    "priority": "High"
+    }
+    Validation Rules:
+    title: Required, string, max 255 characters.
+    description: Optional, string, max 1000 characters.
+    status: Required, must be one of: "To Do", "In Progress", "Completed".
+    priority: Required, must be one of: "High", "Medium", "Low".
+    Response Format (JSON):
+    Success (201 Created):
+    json
+    {
+    "data": {
+        "id": 1,
+        "title": "Complete project documentation",
+        "description": "Write and finalize the project documentation for client review.",
+        "status": "To Do",
+        "priority": "High",
+        "created_at": "2025-04-24T10:00:00Z",
+        "updated_at": "2025-04-24T10:00:00Z"
+    }
+    }
+    Error (422 Unprocessable Entity):
+    json
+    {
+    "errors": {
+        "title": ["The title field is required."],
+        "status": ["The selected status is invalid."]
+    }
+    }
+    HTTP Status Codes:
+    201: Task created successfully.
+    422: Validation errors.
+    500: Server error.
+    
+    or cURL:
     ```bash
     curl -X POST http://127.0.0.1:8000/api/tasks \
     -H "Content-Type: application/json" \
